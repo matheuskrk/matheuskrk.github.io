@@ -12,7 +12,14 @@ privacidade.html       Política de Privacidade
 termos.html            Termos de Uso
 tiktok-callback.html   o redirect https — mostra o code para você colar
 estilo.css
+icone-app-1024.png     ícone do app (1024x1024 PNG, exigência da TikTok)
 ```
+
+O ícone é a curva de retenção — queda nos primeiros segundos, platô em ~45%,
+que é a assinatura de um Short que segurou a audiência. Foi desenhado em
+`site/` e não com a logo do canal de propósito: a ferramenta lê os três
+canais, e a logo da Lagosta marcaria um só. Vermelho `#C41414` e tinta
+`#0D0D0D`, a paleta do brandguide.
 
 ## Manutenção
 
