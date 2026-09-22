@@ -1,0 +1,40 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Autorização Instagram — Cortes</title>
+<link rel="stylesheet" href="estilo.css"></head><body>
+<div class="env">
+<header><a class="marca" href="./">Cortes — Painel Interno</a></header>
+<h1 id="titulo">Lendo a resposta…</h1>
+<div id="corpo"></div>
+<footer class="fraco"><p>Esta página roda inteira no seu navegador. O código
+não é enviado a lugar nenhum — ele só aparece aqui para você copiar.</p></footer>
+</div>
+<script>
+// O Instagram devolve o code para o redirect https registrado no app, e o
+// script local nao ve essa volta. Esta pagina e a ponte: mostra o code para
+// voce colar no terminal. Nada sai do navegador.
+const q = new URLSearchParams(location.search);
+const code = q.get("code"), erro = q.get("error"), canal = q.get("state") || "<canal>";
+const titulo = document.getElementById("titulo"), corpo = document.getElementById("corpo");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+if (code) {
+  titulo.textContent = "Autorizado";
+  corpo.innerHTML = `
+    <p>Copie o código abaixo e rode no terminal, na pasta <code>CORTES/</code>:</p>
+    <div class="caixa"><div class="code" style="word-break:break-all;user-select:all;border:0;background:none;padding:0">${esc(code)}</div></div>
+    <div class="caixa"><div class="code" style="word-break:break-all;border:0;background:none;padding:0">.venv/bin/python -m pipeline.metricas.instagram --auth ${esc(canal)} --code ${esc(code)}</div></div>
+    <p class="fraco">O código vale poucos minutos. Se expirar, é só repetir a
+    autorização — nada se perde.</p>`;
+} else if (erro) {
+  titulo.textContent = "Não autorizado";
+  corpo.innerHTML = `<p>O Instagram respondeu: <code>${esc(erro)}</code>
+    ${q.get("error_description") ? "— " + esc(q.get("error_description")) : ""}</p>
+    <p>Rode o comando de autorização de novo para tentar outra vez.</p>`;
+} else {
+  titulo.textContent = "Página de retorno";
+  corpo.innerHTML = `<p>É aqui que o Instagram devolve a autorização do app.
+    Abrir esta página direto, sem passar pelo consentimento, não mostra nada —
+    é o esperado.</p>`;
+}
+</script></body></html>
